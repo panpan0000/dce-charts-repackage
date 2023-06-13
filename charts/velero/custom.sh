@@ -80,6 +80,14 @@ yq -i '
                                               aws_secret_access_key = <modifiy>"
 ' values.yaml
 
+# enable volumeSnapshotLocation to make snapshot backup workable
+yq -i '
+  .velero.configuration.volumeSnapshotLocation[0].name= "default-volumesnapshot-locaiton" |
+  .velero.configuration.volumeSnapshotLocation[0].provider = "aws" |
+  .velero.configuration.volumeSnapshotLocation[0].config.region= "us-east-1"
+' values.yaml
+
+
 
 # we don't need kubectl sidecar
 yq  -i 'del(."velero"."kubectl")' values.yaml
